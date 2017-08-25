@@ -1,136 +1,124 @@
-class ElementPaginator{
-    constructor(elementArrayToPaginate,paginateBy,navigationContainer,navButtonHTMLString,nextButtonHTMLString,prevButtonHTMLString){
+//Shameless Author : Shaffaaf Ahmed
+//Shamelessly produced on: 25 Aug 2017
 
-    }
+class ElementPaginator {
 
-    appendHtml(element, str) {
-      var div = document.createElement('div');
-      div.innerHTML = str;
-      while (div.children.length > 0) {
-        element.appendChild(div.children[0]);
+
+  constructor(elementArrayToPaginate, paginateBy, navigationContainer, objectName) {
+    this.navigationContainer = navigationContainer;
+    this.objectName = objectName;
+    this.paginatedArray = this.generatePaginatedArray(elementArrayToPaginate, paginateBy);
+    this.goToPage(0, this.paginatedArray);
+    this.generateNavigation(0, navigationContainer);
+  }
+
+  getObjectName() {
+    for (var name in window) {
+      //console.log(this);
+      //console.log(this)
+      if (window[name] == this) {
+        //console.log('name',name)
+        return name;
       }
     }
+  }
 
-    preserveDisplayProperty(element){
-        var property = element.style.display;
-        element.setAttribute('displayProp',property);
+  appendHtml(elementContainer, str) {
+    var appendedElement = null;
+    var div = document.createElement('div');
+    div.innerHTML = str;
+    while (div.children.length > 0) {
+      appendedElement = elementContainer.appendChild(div.children[0]);
+      return appendedElement;
+    }
+  }
+
+  preserveDisplayProperty(element) {
+    var property = element.style.display;
+    element.setAttribute('displayProp', property);
+  }
+
+  restoreDisplayProperty(element) {
+    var property = element.getAttribute('displayProp');
+    if (property !== 'none')
+      element.style.display = property;
+    else
+      element.style.display = '';
+  }
+
+  makeInvisible(elementArray) {
+    for (var i = 0; i < elementArray.length; i++) {
+      this.preserveDisplayProperty(elementArray[i]);
+      elementArray[i].style.display = 'none';
+    }
+  }
+
+  makeVisible(elementArray) {
+    for (var i = 0; i < elementArray.length; i++) {
+      this.restoreDisplayProperty(elementArray[i]);
+    }
+  }
+
+  generatePaginatedArray(elementArray, paginateBy) {
+    var paginatedArray = [];
+    var tempArray = [];
+    for (var i = 0; i < elementArray.length; i++) {
+      if (tempArray.length < paginateBy) {
+        tempArray.push(elementArray[i]);
+
+      } else {
+        paginatedArray.push(tempArray);
+        tempArray = [];
+        tempArray.push(elementArray[i]);
+      }
+      if (parseInt(i + 1) == elementArray.length) {
+        paginatedArray.push(tempArray);
+        tempArray = [];
+        return paginatedArray;
+      }
+    }
+  }
+
+  goToPage(page) {
+    console.log('inside function', page, )
+    console.log(this.getObjectName())
+    for (var i = 0; i < this.paginatedArray.length; i++) {
+      this.makeInvisible(this.paginatedArray[i]);
+    }
+    this.makeVisible(this.paginatedArray[parseInt(page)]);
+
+    this.generateNavigation(page, this.navigationContainer);
+  }
+
+  generateNavigation(currentPage, navigationContainer) {
+    navigationContainer.innerHTML = '';
+    var prevPage = null;
+    var nextPage = null;
+
+    if (currentPage > 0)
+      prevPage = parseInt(currentPage - 1);
+
+    if (currentPage !== parseInt(this.paginatedArray.length - 1))
+      nextPage = parseInt(currentPage + 1);
+
+
+    if (prevPage !== null) {
+      var prevPageHTML = '<a onclick="'+this.objectName+'.goToPage(' + parseInt(currentPage - 1) + ')"><</a>';
+      this.appendHtml(navigationContainer, prevPageHTML);
     }
 
-    restoreDisplayProperty(element){
-        var property = element.getAttribute('displayProp');
-        element.setAttribute('displayProp',property);
+
+    for (var i = 0; i < this.paginatedArray.length; i++) {
+      var buttonHTML = '<a onclick="' + this.objectName + '.goToPage(' + i + ')">' + i + '</a>'
+      this.appendHtml(navigationContainer, buttonHTML);
     }
 
-    makeInvisible(elementArray){
-        for(i=0;i<elementArray.length;i++){
-            preserveDisplayProperty(elementArray[i]);
-            elementArray[i].style.display = 'none';
-        }
+    if (nextPage !== null) {
+      var nextPageHTML = '<a onclick="'+this.objectName+'.goToPage(' + parseInt(currentPage + 1) + ')">></a>';
+      this.appendHtml(navigationContainer, nextPageHTML);
     }
+  }
 
-    makeVisible(elementArray){
-        for(i=0;i<elementArray.length;i++){
-            restoreDisplayProperty(elementArray[i]);
-        }
-    }
 
-    generatePaginatedArray(elementArray,paginateBy){
-        var paginatedArray= [];
-        for(var i=0; i<elementArray.length; i++){
-            var tempArray = [];
-            if(tempArray.length < paginateBy){
-                tempArray.push(elementArray[i]);
-            }else{
-                paginatedArray.push(tempArray);
-                tempArray = [];    
-            }
-            if(parseInt(i-1)==elementArray.length){
-                paginatedArray.push(tempArray);
-                tempArray= [];
-                return paginatedArray;
-            }
-        }
-    }
-
-    goToPage(page,paginatedArray){
-        for(var i=0; i< paginatedArray.length;i++){
-            makeInvisible(paginatedArray[i]);
-        }
-        makeVisible(paginatedArray[page]);
-    }
-
-    generateNavigation(currentPage;prevButtonHTMLString,nextButtonHTMLString,navButtonHTMLString,navContainer){
-        
-    }
-
-    nextPage(){
-
-    }
-    precPage(){
-
-    }
 
 }
-
-
-
-
-// function generatejobPrevAndNexButtons(currentPage){
-//     document.getElementById('jobNextPage').style.display = '';
-//     document.getElementById('jobPrevPage').style.display = '';
-//     document.getElementById('jobNextPage').setAttribute( "onClick", "javascript: goTojobPage("+parseInt(currentPage+1)+");" )
-//     document.getElementById('jobPrevPage').setAttribute( "onClick", "javascript: goTojobPage("+parseInt(currentPage-1)+");" )
-//     if(parseInt(currentPage)==parseInt(jobPaginatedArray.length-1)){
-//         document.getElementById('jobNextPage').style.display = 'none';
-//     }
-//     if(currentPage==0){
-//         document.getElementById('jobPrevPage').style.display = 'none';
-//     }
-
-//     var navButtons = document.getElementsByClassName('job-pn');
-//     for(var i=0;i<navButtons.length;i++){
-//         navButtons[i].classList.remove('current');
-//         if (parseInt(navButtons[i].textContent) == parseInt(currentPage+1)) {
-//             navButtons[i].classList.add('current');
-//         }
-//     }
-// }
-// 
-
-
-
-// let jobArticles = document.getElementsByClassName('job-container');
-// var jobPaginatedArray = [];
-
-// var tempArray = [];
-// var counter =0;
-// for(i = 0; i < jobArticles.length; i++){
-//     jobArticles[i].style.display = 'none';
-//     if(counter < 8){
-//         tempArray.push(jobArticles[i]);
-//         counter ++;
-//         if(i==parseInt(jobArticles.length)-1){
-            
-            
-//              jobPaginatedArray.push(tempArray);
-//         }
-//     }
-//     else{
-//         jobPaginatedArray.push(tempArray);
-//         tempArray = [];
-//         tempArray.push(jobArticles[i])
-//         counter = 1;
-//     }
-// } 
-// for(var i=0;i<jobPaginatedArray.length;i++){
-//     var toAdd = '<a class="pn-item mb-pt-hide job-pn" onclick="goTojobPage('+i+')">' + parseInt(i+1) + '</a>'
-
-//     //var toAdd = '<a onclick="goTojobPage('+i+')">' + parseInt(i+1) + '</a>';
-
-//     appendHtml( document.getElementById('jobPages'),toAdd);
-// }
-// if(jobPaginatedArray.length>0){
-//     makeVisible(jobPaginatedArray[0]);
-//     generatejobPrevAndNexButtons(0);
-// }
-                                                                       

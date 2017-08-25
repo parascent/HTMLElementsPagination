@@ -1,12 +1,58 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>Pagination of HTML elements example</title>
-	<script type="text/javascript" src="HTMLElementPaginator.js"></script>
+  <title>Pagination of HTML elements example</title>
+  <script type="text/javascript" src="HTMLElementPaginator.js"></script>
 </head>
+
 <body>
-	<article class="tobe-paginated">
-		<textarea>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</textarea>
-	</article>
+  <article class="tobe-paginated">
+    <textarea>1</textarea>
+  </article>
+  <article class="tobe-paginated">
+    <textarea>2</textarea>
+  </article>
+  <article class="tobe-paginated">
+    <textarea>3</textarea>
+  </article>
+  <article class="tobe-paginated">
+    <textarea>4</textarea>
+  </article>
+  <article class="tobe-paginated">
+    <textarea>5</textarea>
+  </article>
+  <article class="tobe-paginated">
+    <textarea>6</textarea>
+  </article>
+  <article class="tobe-paginated">
+    <textarea>7</textarea>
+  </article>
+
+  <article class="tobe-paginated">
+    <textarea>8</textarea>
+  </article>
+  <article class="tobe-paginated">
+    <textarea>9</textarea>
+  </article>
+  <article class="tobe-paginated">
+    <textarea>10</textarea>
+  </article>
+  <article class="tobe-paginated">
+    <textarea>11</textarea>
+  </article>
+
+
+  <div id="nav"></div>
+
+
+  <script type="text/javascript">
+    var articlesToPaginate = document.getElementsByClassName('tobe-paginated');
+    var navContainer = document.getElementById('nav');
+    var objectName = 'paginatedArticles';
+    var paginatedArticles = new ElementPaginator(articlesToPaginate, 2,navContainer,objectName,this);
+
+  </script>
 </body>
+
 </html>
