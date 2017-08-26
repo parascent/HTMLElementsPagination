@@ -14,10 +14,7 @@ class ElementPaginator {
 
   getObjectName() {
     for (var name in window) {
-      //console.log(this);
-      //console.log(this)
       if (window[name] == this) {
-        //console.log('name',name)
         return name;
       }
     }
@@ -80,8 +77,6 @@ class ElementPaginator {
   }
 
   goToPage(page) {
-    console.log('inside function', page, )
-    console.log(this.getObjectName())
     for (var i = 0; i < this.paginatedArray.length; i++) {
       this.makeInvisible(this.paginatedArray[i]);
     }
